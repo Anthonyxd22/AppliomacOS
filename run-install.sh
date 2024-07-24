@@ -1,5 +1,4 @@
 #!/bin/sh
-printf "\033]0;Installer\007"
 clear
 rm *.bat
 
