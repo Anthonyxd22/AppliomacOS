@@ -42,8 +42,14 @@ python -m pip uninstall torch torchvision torchaudio -y
 python -m pip install torch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 --index-url https://download.pytorch.org/whl/cu121
 
 chmod +x ./run-applio.sh
-echo "Running run-applio.sh now..."
-./run-applio.sh
+
+if [ -x ./run-applio.sh ]; then
+    echo "Running run-applio.sh now..."
+    ./run-applio.sh
+else
+    echo "run-applio.sh is not executable or not found."
+    exit 1
+fi
 
 finish() {
     if [ -f "${requirements_file}" ]; then
