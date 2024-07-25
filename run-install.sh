@@ -7,16 +7,16 @@ rm *.bat
 prepare_install() {
     echo "Creating venv..."
     requirements_file="requirements.txt"
-    echo "Checking if python exists"
+    echo "Checking if Python exists"
     if command -v python3.10 > /dev/null 2>&1; then
         py=$(which python3.10)
-        echo "Using python3.10"
+        echo "Using Python 3.10"
     elif command -v python3 > /dev/null 2>&1; then
         py=$(which python3)
-        echo "Using python3"
+        echo "Using Python 3"
     elif command -v python > /dev/null 2>&1 && python --version | grep -qE "3\.(7|8|9|10)\."; then
         py=$(which python)
-        echo "Using python"
+        echo "Using Python"
     else
         echo "Python not found. Please install Python 3 or 3.10 manually."
         exit 1
@@ -25,12 +25,20 @@ prepare_install() {
     $py -m venv .venv
     . .venv/bin/activate
     python -m ensurepip
-    pip3 install --upgrade pip
+    pip install --upgrade pip
+    
+   
+    export PYTORCH_ENABLE_MPS_FALLBACK=1
+    export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
+
     echo
     echo "Installing Applio dependencies..."
     python -m pip install -r requirements.txt
     python -m pip uninstall torch torchvision torchaudio -y
     python -m pip install torch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 --index-url https://download.pytorch.org/whl/cu121
+    pip uninstall urllib3 requests -y
+    pip install urllib3 requests
+
     finish
 }
 
