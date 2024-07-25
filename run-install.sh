@@ -51,6 +51,7 @@ finish() {
     fi
     clear
     echo "Applio has been successfully downloaded. Running run-applio.sh now..."
+    chmod +x ./run-applio.sh
     ./run-applio.sh
     exit 0
 }
@@ -58,11 +59,20 @@ finish() {
 if [ "$(uname)" = "Darwin" ]; then
     if ! command -v brew >/dev/null 2>&1; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    else
-        brew install python@3.10
-        export PYTORCH_ENABLE_MPS_FALLBACK=1
-        export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
     fi
+    
+    echo "Installing or updating OpenSSL..."
+    brew install openssl
+    
+    # Ensure correct path to OpenSSL libraries
+    export LDFLAGS="-L$(brew --prefix openssl)/lib"
+    export CPPFLAGS="-I$(brew --prefix openssl)/include"
+    export PATH="$(brew --prefix openssl)/bin:$PATH"
+
+    brew install python@3.10
+    
+    export PYTORCH_ENABLE_MPS_FALLBACK=1
+    export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
 elif [ "$(uname)" != "Linux" ]; then
     echo "Unsupported operating system. Are you using Windows...?"
     echo "If yes, use the batch (.bat) file instead of this one!"
@@ -70,4 +80,3 @@ elif [ "$(uname)" != "Linux" ]; then
 fi
 
 prepare_install
-
