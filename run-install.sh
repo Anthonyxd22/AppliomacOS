@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export TERM=xterm
+
 printf "\033]0;Installer\007"
 clear
 rm *.bat
@@ -27,7 +29,6 @@ prepare_install() {
     python -m ensurepip
     pip install --upgrade pip
     
-   
     export PYTORCH_ENABLE_MPS_FALLBACK=1
     export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
 
