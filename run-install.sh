@@ -22,7 +22,7 @@ prepare_install() {
         exit 1
     fi
 
-    sudo $py -m venv .venv
+    $py -m venv .venv
     . .venv/bin/activate
     python -m ensurepip
     pip3 install --upgrade pip
@@ -70,3 +70,4 @@ elif [ "$(uname)" != "Linux" ]; then
 fi
 
 prepare_install
+
