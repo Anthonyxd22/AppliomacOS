@@ -11,19 +11,18 @@ prepare_install() {
     if command -v python3.10 > /dev/null 2>&1; then
         py=$(which python3.10)
         echo "Using python3.10"
+    elif command -v python3 > /dev/null 2>&1; then
+        py=$(which python3)
+        echo "Using python3"
+    elif command -v python > /dev/null 2>&1 && python --version | grep -qE "3\.(7|8|9|10)\."; then
+        py=$(which python)
+        echo "Using python"
     else
-        if python --version | grep -qE "3\.(7|8|9|10)\."; then
-            py=$(which python)
-            echo "Using python"
-        fi
-    fi
-
-    if [ -z "$py" ]; then
         echo "Python not found. Please install Python 3 or 3.10 manually."
         exit 1
     fi
 
-    $py -m venv .venv
+    sudo $py -m venv .venv
     . .venv/bin/activate
     python -m ensurepip
     pip3 install --upgrade pip
