@@ -18,6 +18,11 @@ prepare_install() {
         fi
     fi
 
+    if [ -z "$py" ]; then
+        echo "Python not found. Please install Python 3 or 3.10 manually."
+        exit 1
+    fi
+
     $py -m venv .venv
     . .venv/bin/activate
     python -m ensurepip
