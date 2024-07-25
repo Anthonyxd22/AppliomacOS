@@ -58,7 +58,9 @@ finish() {
     fi
 
     clear
-    echo "Applio has been successfully downloaded. Running run-applio.sh now..."
+    echo "Applio has been successfully downloaded. Setting permissions for run-applio.sh..."
+    chmod +x ./run-applio.sh
+    echo "Running run-applio.sh now..."
     ./run-applio.sh
     exit 0
 }
@@ -76,4 +78,3 @@ elif [ "$(uname)" != "Linux" ]; then
 fi
 
 finish
-
