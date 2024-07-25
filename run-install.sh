@@ -67,7 +67,8 @@ finish() {
         exit 1
     fi
     clear
-    echo "Applio has been successfully downloaded. Run the file run-applio.sh to run the web interface!"
+    echo "Applio has been successfully downloaded. Running run-applio.sh now..."
+    ./run-applio.sh
     exit 0
 }
 
@@ -78,6 +79,7 @@ if [ "$(uname)" = "Darwin" ]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
         brew install python@3.10
+        brew install openssl
     fi
 elif [ "$(uname)" != "Linux" ]; then
     echo "Unsupported operating system. Are you using Windows...?"
