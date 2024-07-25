@@ -15,9 +15,6 @@ prepare_install() {
         if python --version | grep -qE "3\.(7|8|9|10)\."; then
             py=$(which python)
             echo "Using python"
-        else
-            echo "Please install Python3 or 3.10 manually."
-            exit 1
         fi
     fi
 
@@ -69,4 +66,3 @@ elif [ "$(uname)" != "Linux" ]; then
 fi
 
 prepare_install
-
