@@ -61,7 +61,8 @@ finish() {
     clear
     echo "Applio has been successfully downloaded. Running run-applio.sh now..."
     chmod +x ./run-applio.sh
-    ./run-applio.sh
+    clear
+    ./run-applio.sh | tee -a installation.log
     exit 0
 }
 
