@@ -9,9 +9,9 @@ Funciona con procesadores ARM Y  Con todas las Mac
 
 
 
+
+
 sudo spctl --master-disable
-
-
 codesign --deep --force --verify --verbose --sign "YourCertificateName" /Applications/Applio.app
 codesign -dv --verbose=4 /Applications/Applio.app
 spctl --assess --verbose /Applications/Applio.app
