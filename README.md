@@ -4,7 +4,7 @@ Funciona con procesadores ARM Y  Con todas las Mac
 
 1-Primer paso dercargar Python  3.10.0 https://www.python.org/downloads/release/python-3100/ ( Stable )
 
-2- Segundo paso dercargar en dmg y asegurarte que la app este directorio Aplicaciones luego en la terminal le das permiso para poder usar la app sin restriciones 
+2- Segundo paso dercargar en Dmg y asegurarte que la app este directorio Aplicaciones luego en la terminal le das permiso para poder usar la app sin restriciones 
 
 
 
