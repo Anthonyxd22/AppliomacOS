@@ -6,6 +6,7 @@ Funciona con procesadores ARM Y  Con todas las Mac
 
 2- Segundo paso dercargar en dmg y asegurarte que la app este directorio Aplicaciones luego en la terminal le das permiso para poder usar la app sin restriciones sudo spctl --master-disable
 
+
 codesign --deep --force --verify --verbose --sign "YourCertificateName" /Applications/Applio.app
 codesign -dv --verbose=4 /Applications/Applio.app
 spctl --assess --verbose /Applications/Applio.app
