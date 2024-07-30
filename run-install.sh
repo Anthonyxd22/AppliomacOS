@@ -33,11 +33,9 @@ prepare_install() {
     export PYTORCH_ENABLE_MPS_FALLBACK=1
     export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0
 
-    echo
     echo "Installing Applio dependencies..."
     python -m pip install -r requirements.txt
 
-    
     python -m pip uninstall torch torchvision torchaudio -y
     python -m pip install torch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 --index-url https://download.pytorch.org/whl/cu121
     
@@ -51,7 +49,6 @@ finish() {
     if [ -f "${requirements_file}" ]; then
         installed_packages=$(python -m pip freeze)
         while IFS= read -r package; do
-           
             expr "${package}" : "^#.*" > /dev/null && continue
             if [ -n "$package" ]; then
                 package_name=$(echo "${package}" | sed 's/[<>=!].*//')
@@ -79,7 +76,6 @@ if [ "$(uname)" = "Darwin" ]; then
     fi
     brew install python@3.10
 elif [ "$(uname)" = "Linux" ]; then
-    
     echo "Linux detected. Proceeding with Linux-specific instructions."
 else
     echo "Unsupported operating system. Are you using Windows...?"
@@ -88,3 +84,4 @@ else
 fi
 
 prepare_install
+
