@@ -1,7 +1,6 @@
 #!/bin/sh
 
 export TERM=xterm
-
 printf "\033]0;Installer\007"
 clear
 rm -f *.bat
@@ -10,7 +9,7 @@ prepare_install() {
     echo "Creating venv..."
     requirements_file="requirements.txt"
     echo "Checking if Python exists"
-    
+
     if command -v python3.10 > /dev/null 2>&1; then
         py=$(which python3.10)
         echo "Using Python 3.10"
@@ -84,4 +83,6 @@ else
 fi
 
 prepare_install
+
+printf "\033]0;Applio\007"
 
