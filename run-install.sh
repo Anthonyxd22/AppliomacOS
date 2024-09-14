@@ -3,7 +3,6 @@ printf "\033]0;Installer\007"
 clear
 rm *.bat
 
-# Function to create or activate a virtual environment
 prepare_install() {
     if [ -d ".venv" ]; then
         echo "Venv found. This implies Applio has been already installed or this is a broken install"
@@ -24,13 +23,17 @@ prepare_install() {
             py=$(which python3.10)
             echo "Using python3.10"
         else
-            if python --version | grep -qE "3\.(7|8|9|10)\."; then
-                py=$(which python)
-                echo "Using python"
+            if command -v python3 > /dev/null 2>&1; then
+                py=$(which python3)
+                echo "Using python3"
             else
                 echo "Please install Python3 or 3.10 manually."
                 exit 1
             fi
+        fi
+        if [ -d ".venv" ]; then
+            echo "Removing existing venv..."
+            rm -rf .venv
         fi
         $py -m venv .venv
         . .venv/bin/activate
@@ -44,9 +47,7 @@ prepare_install() {
     fi
 }
 
-# Function to finish installation (this should install missing dependencies)
 finish() {
-    # Check if required packages are installed and install them if not
     if [ -f "${requirements_file}" ]; then
         installed_packages=$(python -m pip freeze)
         while IFS= read -r package; do
@@ -66,7 +67,6 @@ finish() {
     exit 0
 }
 
-# Loop to the main menu
 if [ "$(uname)" = "Darwin" ]; then
     if ! command -v brew >/dev/null 2>&1; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -82,3 +82,4 @@ elif [ "$(uname)" != "Linux" ]; then
 fi
 
 prepare_install
+
