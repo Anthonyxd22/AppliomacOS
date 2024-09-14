@@ -21,7 +21,15 @@ def replace_keys_in_dict(d, old_key_part, new_key_part):
     return updated_dict
 
 
-def extract_small_model(path, name, sr, if_f0, version, epoch, step):
+def extract_small_model(
+    path: str,
+    name: str,
+    sr: int,
+    pitch_guidance: bool,
+    version: str,
+    epoch: int,
+    step: int,
+):
     try:
         ckpt = torch.load(path, map_location="cpu")
         pth_file = f"{name}.pth"
@@ -150,7 +158,7 @@ def extract_small_model(path, name, sr, if_f0, version, epoch, step):
         opt["epoch"] = epoch
         opt["step"] = step
         opt["sr"] = sr
-        opt["f0"] = int(if_f0)
+        opt["f0"] = int(pitch_guidance)
         opt["version"] = version
         opt["creation_date"] = datetime.datetime.now().isoformat()
 
@@ -172,4 +180,4 @@ def extract_small_model(path, name, sr, if_f0, version, epoch, step):
         os.remove(pth_file_old_version_path)
         os.rename(pth_file_old_version_path, pth_file)
     except Exception as error:
-        print(error)
+        print(f"An error occurred extracting the model: {error}")

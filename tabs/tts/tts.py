@@ -3,6 +3,7 @@ import gradio as gr
 import regex as re
 import json
 import random
+import shutil
 
 from core import (
     run_tts_script,
@@ -94,7 +95,7 @@ def get_indexes():
 
 
 def process_input(file_path):
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         file_contents = file.read()
     gr.Info(f"The text from the txt file has been loaded!")
     return file_contents, None
@@ -127,7 +128,7 @@ def save_drop_custom_embedder(dropbox):
         custom_embedder_path = os.path.join(custom_embedder_root, file_name)
         if os.path.exists(custom_embedder_path):
             os.remove(custom_embedder_path)
-        os.rename(dropbox, custom_embedder_path)
+        shutil.copy(dropbox, custom_embedder_path)
         gr.Info(
             i18n(
                 "Click the refresh button to see the embedder file in the dropdown menu."
@@ -139,7 +140,7 @@ def save_drop_custom_embedder(dropbox):
 # TTS tab
 def tts_tab():
     default_weight = random.choice(names) if names else ""
-    with gr.Row():
+    with gr.Column():
         with gr.Row():
             model_file = gr.Dropdown(
                 label=i18n("Voice Model"),
@@ -158,9 +159,9 @@ def tts_tab():
                 interactive=True,
                 allow_custom_value=True,
             )
-        with gr.Column():
-            refresh_button = gr.Button(i18n("Refresh"))
+        with gr.Row():
             unload_button = gr.Button(i18n("Unload Voice"))
+            refresh_button = gr.Button(i18n("Refresh"))
 
             unload_button.click(
                 fn=lambda: (
@@ -364,8 +365,9 @@ def tts_tab():
                 info=i18n("Model used for learning speaker embedding."),
                 choices=[
                     "contentvec",
+                    "chinese-hubert-base",
                     "japanese-hubert-base",
-                    "chinese-hubert-large",
+                    "korean-hubert-base",
                     "custom",
                 ],
                 value="contentvec",
@@ -464,10 +466,10 @@ def tts_tab():
             clean_audio,
             clean_strength,
             export_format,
-            embedder_model,
-            embedder_model_custom,
             upscale_audio,
             f0_file,
+            embedder_model,
+            embedder_model_custom,
         ],
         outputs=[vc_output1, vc_output2],
     )

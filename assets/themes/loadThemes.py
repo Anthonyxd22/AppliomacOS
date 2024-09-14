@@ -94,8 +94,8 @@ def read_json():
                 return class_name
             else:
                 return "ParityError/Interstellar"
-    except Exception as e:
-        print(f"Error reading config.json: {e}")
+    except Exception as error:
+        print(f"An error occurred loading the theme: {error}")
         return "ParityError/Interstellar"
 
 
@@ -110,13 +110,13 @@ def load_json():
                 module = importlib.import_module(selected_file[:-3])
                 obtained_class = getattr(module, class_name)
                 instance = obtained_class()
-                print(f"Theme Loaded: {class_name}")
+                print(f"Theme {class_name} successfully loaded.")
                 return instance
             elif selected_file == None and class_name:
                 return class_name
             else:
                 print("The theme is incorrect.")
                 return None
-    except Exception as e:
-        print(f"Error Loading: {str(e)}")
+    except Exception as error:
+        print(f"An error occurred loading the theme: {error}")
         return None

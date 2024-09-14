@@ -19,9 +19,14 @@ def model_blender(name, path1, path2, ratio):
         message = f"Model {path1} and {path2} are merged with alpha {ratio}."
         ckpt1 = torch.load(path1, map_location="cpu")
         ckpt2 = torch.load(path2, map_location="cpu")
+
+        if ckpt1["sr"] != ckpt2["sr"]:
+            return "The sample rates of the two models are not the same."
+
         cfg = ckpt1["config"]
         cfg_f0 = ckpt1["f0"]
         cfg_version = ckpt1["version"]
+        cfg_sr = ckpt1["sr"]
 
         if "model" in ckpt1:
             ckpt1 = extract(ckpt1)
@@ -50,14 +55,14 @@ def model_blender(name, path1, path2, ratio):
                 ).half()
 
         opt["config"] = cfg
-        opt["sr"] = message
+        opt["sr"] = cfg_sr
         opt["f0"] = cfg_f0
         opt["version"] = cfg_version
         opt["info"] = message
 
-        torch.save(opt, os.path.join("logs", "%s.pth" % name))
+        torch.save(opt, os.path.join("logs", f"{name}.pth"))
         print(message)
-        return message, os.path.join("logs", "%s.pth" % name)
+        return message, os.path.join("logs", f"{name}.pth")
     except Exception as error:
-        print(error)
+        print(f"An error occurred blending the models: {error}")
         return error
