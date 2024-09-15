@@ -63,7 +63,9 @@ finish() {
         exit 1
     fi
     clear
-    echo "Applio has been successfully downloaded. Run the file run-applio.sh to run the web interface!"
+    echo "Applio has been successfully downloaded. Running the file run-applio.sh with permissions!"
+    chmod +x run-applio.sh
+    ./run-applio.sh
     exit 0
 }
 
@@ -82,4 +84,3 @@ elif [ "$(uname)" != "Linux" ]; then
 fi
 
 prepare_install
-
